@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std/http/server.ts";
 
 // API 目标地址映射
 const apiMapping = {
+  '/mistral': 'https://api.mistral.ai',
   '/discord': 'https://discord.com/api',
   '/telegram': 'https://api.telegram.org',
   '/openai': 'https://api.openai.com',
