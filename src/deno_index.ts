@@ -104,8 +104,14 @@ Deno.serve(async (request: Request) => {
       redirect: 'follow'
     });
 
-    // 7. 构造响应并添加安全/CORS 头
+// 7. 构造响应并添加安全/CORS 头
     const responseHeaders = new Headers(response.headers);
+    
+    // 【关键修复】：删除 content-encoding 和 content-length
+    // Deno fetch 已经自动解压了 body，若保留该头，客户端会对其二次解压导致魔数校验失败报错
+    responseHeaders.delete('content-encoding');
+    responseHeaders.delete('content-length');
+
     responseHeaders.set('Access-Control-Allow-Origin', '*'); // 允许跨域
     responseHeaders.set('X-Content-Type-Options', 'nosniff');
     responseHeaders.set('X-Proxy-By', 'Deno-Deploy-New');
